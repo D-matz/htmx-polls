@@ -1,0 +1,15 @@
+<div class="question-box expanded" id="question-box-{{ question.id }}">
+    <div>
+        <div class="question-title">{{ question.question_text }}</div>
+        <p class="published-date"><em>{{ question.pub_date|timesince }} ago</em></p>
+    </div>
+    <ul class="choices-list expanded" id="choices-list-{{ question.id }}">
+      {% for choice in question.choice_set.all %}
+        <li>
+          {{choice.votes }} - {{ choice.choice_text }}
+        </li>
+      {% endfor %}
+    </ul>
+    {% include 'polls/barchart.html' %}
+    <button class=button id="more-button-{{ question.id }}" onclick="toggleChoices({{ question.id }})">Less</button>
+</div>

@@ -1,0 +1,30 @@
+{% for question in questions %}
+    <div class="question-box" id="question-box-{{ question.id }}"
+    {% if forloop.last %}hx-get="{% url 'polls:load_more_questions' pagenum=page_number %}" hx-trigger="revealed" hx-swap="afterend"{% endif %}>
+        <div>
+            <div class="question-title">{{ question.question_text }}</div>
+            <p class="published-date"><em>{{ question.pub_date|timesince }} ago |
+              <a href="{% url 'polls:see_results'}"
+                  hx-post="{% url 'polls:see_results' question.id %}"
+                  hx-target="#question-box-{{ question.id }}"
+                  hx-swap="outerHTML">
+                  See Results
+              </a>
+            </em></p>
+        </div>
+        <ul class="choices-list" id="choices-list-{{ question.id }}">
+          {% for choice in question.choice_set.all %}
+            <li>
+              <input class="vote-button" type="radio" name="choice" value="{{ choice.id }}"
+                     hx-post="{% url 'polls:vote' question.id %}"
+                     hx-target="#question-box-{{ question.id }}"
+                     hx-swap="outerHTML" />
+              {{ choice.choice_text }}
+            </li>
+          {% endfor %}
+        </ul>
+        {% if question.choice_set.count > 3 %}
+            <button class=button id="more-button-{{ question.id }}" onclick="toggleChoices({{ question.id }})">More</button>
+        {% endif %}
+    </div>
+{% endfor %}

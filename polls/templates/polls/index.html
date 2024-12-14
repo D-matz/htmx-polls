@@ -1,0 +1,61 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'polls/css/style.css' %}">
+    <script src="{% static 'polls/js/script.js' %}"></script>
+    <head>
+    <link rel="icon" href="{% static 'polls/images/favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'polls/images/favicon-16x16.png' %}" sizes="16x16" type="image/png">
+    <link rel="icon" href="{% static 'polls/images/favicon-32x32.png' %}" sizes="32x32" type="image/png">
+    <link rel="icon" href="{% static 'polls/images/android-chrome-192x192.png' %}" sizes="192x192" type="image/png">
+    <link rel="icon" href="{% static 'polls/images/android-chrome-512x512.png' %}" sizes="512x512" type="image/png">
+    <link rel="apple-touch-icon" href="{% static 'polls/images/apple-touch-icon.png' %}">
+    <link rel="manifest" href="{% static 'polls/images/site.webmanifest' %}">
+</head>
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <nav class="navbar">
+      <div class="navbar-left">
+        <span id="polls">Polls</span>
+        <button id="openModalBtn">Create new poll</button>
+        <div id="search">
+            <input
+                type="text"
+                name="search"
+                placeholder="Search polls..."
+                hx-get="{% url 'polls:search_polls' %}"
+                hx-trigger="keyup changed delay:500ms"
+                hx-target="#question-list">
+        </div>
+      </div>
+      <div class="navbar-right">
+        {% include 'registration/userinfo.html' %}
+        <button class="transparent" id="toggle-dark" onclick="toggleDarkMode()">Toggle dark mode</button>
+      </div>
+    </nav>
+    <div id="question-list" class="container">
+      {% include 'polls/qlist.html' %}
+    </div>
+    <div class="modal" id="myModal">
+        <div class="modal-content">
+            <span class="close" id="closeModalBtn">&times;</span>
+            <form hx-post="{% url 'polls:create' %}"
+            hx-target="#question-list"
+            hx-swap="afterbegin show:top"
+            novalidate>
+              {% csrf_token %}
+                {{ q_form }}
+                <div id="choices">
+                  {{ c_form }}
+                </div>
+                <div><button type="button" id="add-choice">+</button></div>
+                <div><button id="createPollBtn" type="submit">Post Poll</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

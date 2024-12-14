@@ -1,0 +1,12 @@
+{% load customfilters %}
+
+<div class="chart-container expanded" id="chart-container-{{ question.id }}">
+    {% for choice in question.choice_set.all %}
+        <div class="bar" style="height: {{ choice.get_percent_height|mult:250|add:5 }}px;">
+            <div class="bar-label">
+                <span>{{ choice.choice_text }}</span><br>
+                <span>{{ choice.votes }}</span>
+            </div>
+        </div>
+    {% endfor %}
+</div>

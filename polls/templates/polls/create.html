@@ -1,0 +1,20 @@
+<div class="question-box" id="question-box-{{ question.id }}">
+    <div>
+        <div class="question-title">{{ question.question_text }}</div>
+        <p class="published-date"><em>{{ question.pub_date|timesince }} ago</em></p>
+    </div>
+    <ul class="choices-list" id="choices-list-{{ question.id }}">
+      {% for choice in question.choice_set.all %}
+        <li>
+          <input class="vote-button" type="radio" name="choice" value="{{ choice.id }}"
+                 hx-post="{% url 'polls:vote' question.id %}"
+                 hx-target="#question-box-{{ question.id }}"
+                 hx-swap="outerHTML" />
+          {{ choice.choice_text }}
+        </li>
+      {% endfor %}
+    </ul>
+    {% if question.choice_set.count > 3 %}
+        <button class=button id="more-button-{{ question.id }}" onclick="toggleChoices({{ question.id }})">More</button>
+    {% endif %}
+</div>

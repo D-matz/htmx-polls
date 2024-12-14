@@ -1,0 +1,8 @@
+<span id="user-info"  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+<h2>Log In</h2>
+<form method="post" hx-post="{% url 'login' %}" hx-target="#user-info" hx-swap="innerHTML">
+  {% csrf_token %}
+  {{ form }}
+  <button type="submit">Log In</button>
+</form>
+</span>
