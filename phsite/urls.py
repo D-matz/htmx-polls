@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from polls import views
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path("polls/", include("polls.urls")),
@@ -24,5 +25,6 @@ urlpatterns = [
     path("accounts/login", views.user_login, name="login"),
     path("accounts/signup", views.user_signup, name="signup"),
     path("accounts/logout", views.user_logout, name="logout"),
-    path("csrf", views.csrf, name="csrf")
+    path("csrf", views.csrf, name="csrf"),
+    path("", RedirectView.as_view(url="/polls")),
 ]

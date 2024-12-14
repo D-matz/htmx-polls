@@ -32,7 +32,7 @@ def search_polls(request):
 def create(request):
     if request.method == 'POST':
         q_form, c_form = QuestionForm(request.POST), ChoiceForm(request.POST)
-        print(q_form, c_form)
+        #print(q_form, c_form)
         if q_form.is_valid() and c_form.is_valid():
             question = q_form.save(commit=False)
             question.pub_date = now()
@@ -40,7 +40,8 @@ def create(request):
             for choice_text in request.POST.getlist('choice_text'):
                 if choice_text != "":
                     Choice.objects.create(question=question, choice_text=choice_text)
-            context = {'questions': [question], 'page_number': 0}
+            context = {'questions': [question], "page_number": 9999999}
+            print("return", context)
             return render(request, "polls/qlist.html", context)
     else:
         q_form, c_form = QuestionForm(), ChoiceForm()
