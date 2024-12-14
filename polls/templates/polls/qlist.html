@@ -23,8 +23,6 @@
             </li>
           {% endfor %}
         </ul>
-        {% if question.choice_set.count > 3 %}
             <button class=button id="more-button-{{ question.id }}" onclick="toggleChoices({{ question.id }})">More</button>
-        {% endif %}
     </div>
 {% endfor %}

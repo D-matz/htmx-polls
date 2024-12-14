@@ -54,7 +54,7 @@ def index(request):
     latest_question_list = get_question_list(1)
     q_form, c_form = QuestionForm(), ChoiceForm()
     context = {"questions": latest_question_list, 'q_form': q_form, 'c_form': c_form, "page_number": 1}
-    sleep(1)
+   # sleep(1)
     return render(request, "polls/index.html", context)
 
 def load_more_questions(request, pagenum):
