@@ -40,7 +40,8 @@ def create(request):
             for choice_text in request.POST.getlist('choice_text'):
                 if choice_text != "":
                     Choice.objects.create(question=question, choice_text=choice_text)
-            return render(request, "polls/create.html", {'question': question})
+            context = {'questions': [question], 'page_number': 0}
+            return render(request, "polls/qlist.html", context)
     else:
         q_form, c_form = QuestionForm(), ChoiceForm()
     return render(request, 'polls/create.html', {'q_form': q_form, 'c_form': c_form})
@@ -62,7 +63,6 @@ def load_more_questions(request, pagenum):
     more_question_list = get_question_list(nextpage)
     context = {"questions": more_question_list, "page_number": nextpage}
     return render(request, "polls/qlist.html", context)
-
 
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
